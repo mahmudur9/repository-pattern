@@ -14,7 +14,7 @@ namespace RepositoryPattern.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private IEmployeeRepository employeeRepository;
+        private readonly IEmployeeRepository employeeRepository;
         public EmployeesController(IEmployeeRepository employeeRepository)
         {
             this.employeeRepository = employeeRepository;
@@ -32,6 +32,7 @@ namespace RepositoryPattern.Controllers
         public async Task<IActionResult> GetData(Guid id)
         {
             var employee = await employeeRepository.GetEmployee(id);
+
             return Ok(employee);
         }
 
@@ -46,7 +47,8 @@ namespace RepositoryPattern.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update(Employee employee)
         {
-            await employeeRepository .UpdateEmployee(employee);
+            await employeeRepository.UpdateEmployee(employee);
+
             return Ok("Employee updated successfully!");
         }
 
@@ -54,6 +56,7 @@ namespace RepositoryPattern.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await employeeRepository.DeleteEmployee(id);
+
             return Ok("Employee deleted successfully!");
         }
     }

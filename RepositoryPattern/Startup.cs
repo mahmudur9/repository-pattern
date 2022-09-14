@@ -29,6 +29,17 @@ namespace RepositoryPattern
         {
             services.AddControllers();
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
             // Adding dbContext by myself
             services.AddDbContext<DBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -50,6 +61,8 @@ namespace RepositoryPattern
             }
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
